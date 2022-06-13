@@ -15,6 +15,7 @@ namespace _ActionFarm.Scripts.Activities
     [Serializable]
     public enum ActivityType
     {
-        GetResource
+        GetResource,
+        Trade
     }
 }

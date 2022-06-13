@@ -1,17 +1,16 @@
 using System;
 using _ActionFarm.Scripts.Components;
-using _ActionFarm.Scripts.Hero.HeroInventory;
+using _ActionFarm.Scripts.Hero;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace _ActionFarm.Scripts.Activities
 {
     public class GetResourceActivity : ActivityBase
     {
-        public ResourceType resourceType;
-
-        [SerializeField] private int _quantity;
         [SerializeField] private TriggerComponent _triggerEnter;
-        [SerializeField] private SpawnParticleComponent _particleComponent;
+        [SerializeField] private PlantGrowthController _plantController;
+        [SerializeField] private GameObject _prefab;
 
         public override ActivityType ActivityType
         {
@@ -23,13 +22,10 @@ namespace _ActionFarm.Scripts.Activities
 
         private void Add(Collider other)
         {
-            _particleComponent._particleSystem.Play();
-            _particleComponent.SpawnParticleToTarget(other.transform,
-                () =>
-                {
-                    Inventory.AddResource(resourceType, _quantity);
-                    _particleComponent._particleSystem.Stop();
-                });
+            _plantController.HarvestPlant(() => HeroController.Instance.RemoveActivity(this));
+            var instance = Instantiate(_prefab, transform.position, quaternion.identity);
+            instance.GetComponent<Rigidbody>()
+                .AddForce(Vector3.one, ForceMode.Impulse);
         }
     }
 }

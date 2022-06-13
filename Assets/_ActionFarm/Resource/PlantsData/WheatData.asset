@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90dc4c364d524c66b8c00409fa699fdd, type: 3}
+  m_Name: WheatData
+  m_EditorClassIdentifier: 
+  plantDatas:
+  - stagMesh: {fileID: -7387926931826281997, guid: 930930f3ed7d14b068719b0ce433ffcf, type: 3}
+    growthTime: 5
+  - stagMesh: {fileID: 6286899413230163461, guid: 12abee8d382ac48198fae5a29a02ba8f, type: 3}
+    growthTime: 10
+  - stagMesh: {fileID: -7387926931826281997, guid: b50dd34feb8fa1b4fa5aa0a7d2271066, type: 3}
+    growthTime: 0

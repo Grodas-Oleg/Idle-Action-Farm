@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f217cac3209164431ba0c9b6367a8779, type: 3}
+  m_Name: AudioHolder
+  m_EditorClassIdentifier: 
+  _musicVolumes:
+  - -80
+  - -25
+  - -12
+  - -5
+  - 0
+  _soundVolumes:
+  - -80
+  - -25
+  - -12
+  - -5
+  - 0
+  _clips:
+  - {fileID: 8300000, guid: ecea51eba1f364819b4e48d1810c02a3, type: 3}
+  - {fileID: 8300000, guid: 86c8f42d5b8268c45b5853a04cd96306, type: 3}
+  - {fileID: 8300000, guid: e99e074a7ca230c42b337de076ba4d8f, type: 3}

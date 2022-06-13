@@ -6,20 +6,16 @@ namespace _ActionFarm.Scripts.Components
 {
     public class SpawnParticleComponent : MonoBehaviour
     {
-        [SerializeField] private Transform _target;
         [SerializeField] private float _force = 10f;
         [SerializeField] public ParticleSystem _particleSystem;
 
         private readonly ParticleSystem.Particle[] _particles = new ParticleSystem.Particle[1];
         private Coroutine _currentCoroutine;
 
-        public void SpawnParticleToTarget(Transform targetPosition, UnityAction action)
-        {
-            _target = targetPosition;
+        public void SpawnParticleToTarget(Vector3 targetPosition, UnityAction action) =>
             _currentCoroutine = StartCoroutine(Spawn(targetPosition, action));
-        }
 
-        private IEnumerator Spawn(Transform targetPosition, UnityAction action)
+        private IEnumerator Spawn(Vector3 targetPosition, UnityAction action)
         {
             while (enabled)
             {
@@ -28,9 +24,9 @@ namespace _ActionFarm.Scripts.Components
                 for (int i = 0; i < _particles.Length; i++)
                 {
                     _particles[i].position =
-                        Vector3.Lerp(_particles[i].position, targetPosition.position, Time.deltaTime * _force);
+                        Vector3.Lerp(_particles[i].position, targetPosition, Time.deltaTime * _force);
 
-                    if (!(Vector3.Distance(_particles[i].position, targetPosition.position) < .1f)) continue;
+                    if (!(Vector3.Distance(_particles[i].position, targetPosition) < .1f)) continue;
 
                     _particles[i].remainingLifetime = 0;
                     action.Invoke();

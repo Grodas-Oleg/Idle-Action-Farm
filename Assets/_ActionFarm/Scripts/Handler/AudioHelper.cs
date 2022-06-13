@@ -7,7 +7,6 @@ namespace _ActionFarm.Scripts.Handler
     public class AudioHelper : Singleton<AudioHelper>
     {
         [SerializeField] private AudioHolder _audioHolder;
-        [SerializeField] private AudioSource _musicAudioSource;
         [SerializeField] private AudioSource _mainSoundsAudioSource;
         [SerializeField] private AudioSource[] _soundsAudioSource;
 

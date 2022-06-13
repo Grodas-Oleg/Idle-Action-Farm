@@ -28,8 +28,6 @@ namespace _ActionFarm.Scripts.Hero.HeroInventory
 
         public static bool RemoveResource(ResourceType resourceType, int quantity = 1)
         {
-            if (!IsEnoughResource(resourceType, quantity)) return false;
-
             inventoryModel.Resources[resourceType] -= quantity;
             if (inventoryModel.Resources[resourceType] <= 0)
                 inventoryModel.Resources.Remove(resourceType);
@@ -39,23 +37,9 @@ namespace _ActionFarm.Scripts.Hero.HeroInventory
             return true;
         }
 
+        public static bool IsFullStack(ResourceType resourceType) => CountResource(resourceType) >= 40;
+
         public static int CountResource(ResourceType resourceType) =>
             inventoryModel.Resources.TryGetValue(resourceType, out int quantity) ? quantity : 0;
-
-        private static bool IsEnoughResource(ResourceType resourceType, int quantity) =>
-            inventoryModel.Resources.TryGetValue(resourceType, out int currentQuantity) && currentQuantity >= quantity;
-    }
-
-    [Serializable]
-    public struct Resource
-    {
-        public ResourceType resourceType;
-        public int quantity;
-
-        public Resource(ResourceType resourceType)
-        {
-            this.resourceType = resourceType;
-            quantity = 0;
-        }
     }
 }
