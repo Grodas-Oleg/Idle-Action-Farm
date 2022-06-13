@@ -1,32 +1,32 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using _ActionFarm.Scripts.Activities;
 using _ActionFarm.Scripts.Components;
+using _ActionFarm.Scripts.EventLayer;
+using _ActionFarm.Scripts.Hero.HeroInventory;
 using _ActionFarm.Scripts.Utilities;
+using _ValiantLight.Scripts.Utilities;
 using UnityEngine;
 
 namespace _ActionFarm.Scripts.Hero
 {
     public class HeroController : Singleton<HeroController>
     {
-        [SerializeField] private VariableJoystick _floatingJoystick;
-
         [SerializeField] private HeroView _view;
-
-        // [SerializeField] private HeroWeaponView _weapon;
-        [SerializeField] private Rigidbody _rigidbody;
-
-        [SerializeField] private float _moveSpeed;
+        [SerializeField] private HeroWeaponView _weapon;
+        [SerializeField] private VariableJoystick _floatingJoystick;
         [SerializeField] private TriggerComponent _activityCheck;
+        [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private float _moveSpeed;
+        [SerializeField] private SpawnParticleComponent _spawnParticle;
+        [SerializeField] private IntStat _coins;
 
         [Space] [Header("Activities")] [SerializeField]
         private List<ActivityBase> _currentActivities = new List<ActivityBase>();
 
-        private float _traveledDistance;
-        private bool _immune;
-        private float turnSmoothVelocity;
-        private float _rotationSmooth = .1f;
-
+        private Coroutine _coroutine;
+        public IntStat Coins => _coins;
         private void Start() => _activityCheck.AddCallbacks(TryStartActivity, UnsetActivity);
 
         private void UnsetActivity(Collider other)
@@ -38,10 +38,17 @@ namespace _ActionFarm.Scripts.Hero
             var firstGetResourcesActivity =
                 _currentActivities.FirstOrDefault(x => x.ActivityType == ActivityType.GetResource);
 
+            var tradingActivity = _currentActivities.Find(x => x.ActivityType == ActivityType.Trade);
+
 
             if (firstGetResourcesActivity == null)
             {
+                _weapon.SetWeaponView(false);
                 _view.Attack(false);
+            }
+            else if (tradingActivity != null)
+            {
+                StopCoroutine(_coroutine);
             }
         }
 
@@ -54,7 +61,35 @@ namespace _ActionFarm.Scripts.Hero
             if (activity.ActivityType == ActivityType.GetResource)
             {
                 _view.Attack(true);
+                _weapon.SetWeaponView(true);
             }
+            else if (activity.ActivityType == ActivityType.Trade)
+            {
+                var resources = Inventory.inventoryModel.Resources.Keys;
+
+                foreach (var resource in resources.Where(resource => Inventory.CountResource(resource) > 0))
+                    _coroutine = StartCoroutine(TrySendResource(resource, activity.transform));
+            }
+        }
+
+        private IEnumerator TrySendResource(ResourceType resource, Transform target)
+        {
+            while (Inventory.CountResource(resource) > 0 && Inventory.inventoryModel.Resources.ContainsKey(resource))
+            {
+                _spawnParticle.SpawnParticleToTarget(target.position, () =>
+                {
+                    Inventory.RemoveResource(resource);
+                    EventBus.onResourceSend?.Invoke(resource);
+                });
+                yield return new WaitForSeconds(5f);
+            }
+        }
+
+        public void RemoveActivity(ActivityBase activity)
+        {
+            _currentActivities.Remove(activity);
+            _view.Attack(false);
+            _weapon.SetWeaponView(false);
         }
 
         private void Update()
@@ -71,6 +106,13 @@ namespace _ActionFarm.Scripts.Hero
             {
                 _view.StopMove();
             }
+        }
+
+        public void AddCoins(int value)
+        {
+            var oldValue = _coins.current;
+            _coins.Add(value);
+            EventBus.onAddCoins?.Invoke(_coins.current, oldValue);
         }
     }
 }

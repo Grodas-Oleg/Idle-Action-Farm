@@ -9,6 +9,7 @@ namespace _ActionFarm.Scripts.Hero
 
         [SerializeField] private Animator _animator;
         [SerializeField] private float _stepDelay;
+        [SerializeField] private AudioSource _audioSource;
 
         private Coroutine _currentCoroutine;
 
@@ -51,8 +52,8 @@ namespace _ActionFarm.Scripts.Hero
             var waitSeconds = new WaitForSeconds(_stepDelay);
             while (true)
             {
-                // _audioSource.pitch = Random.Range(0.85f, 1.05f);
-                // _audioSource.Play();
+                _audioSource.pitch = Random.Range(0.85f, 1.05f);
+                _audioSource.Play();
                 yield return waitSeconds;
             }
         }
