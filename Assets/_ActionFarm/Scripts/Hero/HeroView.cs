@@ -5,8 +5,6 @@ namespace _ActionFarm.Scripts.Hero
 {
     public class HeroView : MonoBehaviour
     {
-        private const string ATTACKLAYER = "Attack Layer";
-
         [SerializeField] private Animator _animator;
         [SerializeField] private float _stepDelay;
         [SerializeField] private AudioSource _audioSource;
@@ -41,11 +39,8 @@ namespace _ActionFarm.Scripts.Hero
                 transform.rotation = Quaternion.LookRotation(velocity);
         }
 
-        public void Attack(bool status)
-        {
-            _animator.SetLayerWeight(_animator.GetLayerIndex(ATTACKLAYER), status ? 1 : 0);
-            _animator.SetBool(AttackAnimation, status);
-        }
+        public void Attack(bool status) => _animator.SetBool(AttackAnimation, status);
+
 
         private IEnumerator PlayStepSound()
         {

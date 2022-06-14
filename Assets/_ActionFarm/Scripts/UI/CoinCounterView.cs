@@ -13,7 +13,7 @@ namespace _ActionFarm.Scripts.UI
 
         private void OnEnable()
         {
-            _quantityText.text = "x " + HeroController.Instance.Coins.current;
+            _quantityText.SetText(HeroController.Instance.Coins.current.ToString());
             EventBus.onAddCoins += UpdateCoinCounterView;
         }
 

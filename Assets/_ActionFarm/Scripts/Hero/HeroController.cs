@@ -81,13 +81,18 @@ namespace _ActionFarm.Scripts.Hero
                     Inventory.RemoveResource(resource);
                     EventBus.onResourceSend?.Invoke(resource);
                 });
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(.5f);
             }
         }
 
         public void RemoveActivity(ActivityBase activity)
         {
             _currentActivities.Remove(activity);
+
+            var firstGetResourcesActivity =
+                _currentActivities.FirstOrDefault(x => x.ActivityType == ActivityType.GetResource);
+
+            if (firstGetResourcesActivity != null) return;
             _view.Attack(false);
             _weapon.SetWeaponView(false);
         }

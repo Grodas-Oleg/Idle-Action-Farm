@@ -10,7 +10,7 @@ namespace _ActionFarm.Scripts.Activities
     {
         [SerializeField] private TriggerComponent _triggerEnter;
         [SerializeField] private PlantGrowthController _plantController;
-        [SerializeField] private GameObject _prefab;
+        [SerializeField] private GameObject _blockPrefab;
 
         public override ActivityType ActivityType
         {
@@ -23,7 +23,7 @@ namespace _ActionFarm.Scripts.Activities
         private void Add(Collider other)
         {
             _plantController.HarvestPlant(() => HeroController.Instance.RemoveActivity(this));
-            var instance = Instantiate(_prefab, transform.position, quaternion.identity);
+            var instance = Instantiate(_blockPrefab, transform.position, quaternion.identity);
             instance.GetComponent<Rigidbody>()
                 .AddForce(Vector3.one, ForceMode.Impulse);
         }

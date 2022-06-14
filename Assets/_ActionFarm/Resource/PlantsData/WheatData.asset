@@ -19,3 +19,4 @@ MonoBehaviour:
     growthTime: 10
   - stagMesh: {fileID: -7387926931826281997, guid: b50dd34feb8fa1b4fa5aa0a7d2271066, type: 3}
     growthTime: 0
+  _plantBlock: {fileID: 5706459424148832163, guid: 7089e7caec44d4195bd4dfa761568120, type: 3}

@@ -14,9 +14,9 @@ namespace _ActionFarm.Scripts.UI
         {
             foreach (var resourceData in _resourceDatas)
             {
-                resourceData.quantityText.text = Inventory.inventoryModel.Resources.ContainsKey(resourceData.resource)
-                    ? "x " + Inventory.inventoryModel.Resources[resourceData.resource]
-                    : "0";
+                resourceData.quantityText.SetText(Inventory.inventoryModel.Resources.ContainsKey(resourceData.resource)
+                    ? Inventory.inventoryModel.Resources[resourceData.resource] + "/40"
+                    : "0/40");
             }
 
             Inventory.onInventoryChanged += UpdateView;
@@ -32,7 +32,7 @@ namespace _ActionFarm.Scripts.UI
             }
 
             Inventory.inventoryModel.Resources.TryGetValue(resource, out int currentQuantity);
-            resourceData.quantityText.text = "x " + currentQuantity;
+            resourceData.quantityText.SetText(currentQuantity + "/40");
         }
     }
 

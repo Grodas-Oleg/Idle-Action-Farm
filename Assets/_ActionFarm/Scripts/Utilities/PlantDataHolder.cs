@@ -7,7 +7,9 @@ namespace _ActionFarm.Scripts.Utilities
     public class PlantDataHolder : ScriptableObject
     {
         [SerializeField] private PlantData[] plantDatas;
+        [SerializeField] private GameObject _plantBlock;
         public PlantData[] PlantDatas => plantDatas;
+        public GameObject PlantBlock => _plantBlock;
     }
 
     [Serializable]

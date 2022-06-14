@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _triggerEnter: {fileID: 4361750067454356662}
   _plantController: {fileID: 3419250051085402206}
-  _prefab: {fileID: 8488941898742621588, guid: 7089e7caec44d4195bd4dfa761568120, type: 3}
+  _blockPrefab: {fileID: 5706459424148832163, guid: 7089e7caec44d4195bd4dfa761568120, type: 3}
 --- !u!65 &3419250051085402193
 BoxCollider:
   m_ObjectHideFlags: 0
