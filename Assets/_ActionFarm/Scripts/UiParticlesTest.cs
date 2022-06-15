@@ -1,34 +1,27 @@
-using System;
 using System.Collections;
 using _ActionFarm.Scripts.Hero;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace _ActionFarm.Scripts
 {
-    public class Test : MonoBehaviour
+    public class UiParticlesTest : MonoBehaviour
     {
         [SerializeField] private Transform _transform;
         [SerializeField] private Material _material;
         [SerializeField] private Transform _target;
         [SerializeField] private Camera _uiCamera;
-
         [SerializeField] private float _force = 10f;
         [SerializeField] public ParticleSystem _particleSystem;
 
         private readonly ParticleSystem.Particle[] _particles = new ParticleSystem.Particle[1];
         private Coroutine _currentCoroutine;
-
         private Vector3 _startPoint;
-        private Vector3 _endPoint;
-
 
         private void Start()
         {
             var position = _startPoint = _uiCamera.ScreenToWorldPoint(_transform.position);
-            var targetPosition = _endPoint = _uiCamera.ScreenToWorldPoint(_target.position);
-            SpawnParticleToTarget(position, targetPosition, () => HeroController.Instance.AddCoins(1));
+            SpawnParticleToTarget(position, _target.position, () => HeroController.Instance.AddCoins(1));
         }
 
 
@@ -57,12 +50,6 @@ namespace _ActionFarm.Scripts
 
                 yield return null;
             }
-        }
-
-        private void OnDrawGizmos()
-        {
-            Handles.color = Color.red;
-            Handles.DrawLine(_startPoint, _endPoint);
         }
     }
 }

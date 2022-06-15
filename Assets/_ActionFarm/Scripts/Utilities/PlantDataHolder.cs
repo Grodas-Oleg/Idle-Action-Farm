@@ -9,7 +9,6 @@ namespace _ActionFarm.Scripts.Utilities
         [SerializeField] private PlantData[] plantDatas;
         [SerializeField] private GameObject _plantBlock;
         public PlantData[] PlantDatas => plantDatas;
-        public GameObject PlantBlock => _plantBlock;
     }
 
     [Serializable]

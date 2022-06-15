@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _ValiantLight.Scripts.Components
+namespace _ActionFarm.Scripts.Components
 {
     public class CameraFollow : MonoBehaviour
     {

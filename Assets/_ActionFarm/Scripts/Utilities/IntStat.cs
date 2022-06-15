@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace _ValiantLight.Scripts.Utilities
+namespace _ActionFarm.Scripts.Utilities
 {
     [Serializable]
     public class IntStat

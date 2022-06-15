@@ -6,7 +6,6 @@ using _ActionFarm.Scripts.Components;
 using _ActionFarm.Scripts.EventLayer;
 using _ActionFarm.Scripts.Hero.HeroInventory;
 using _ActionFarm.Scripts.Utilities;
-using _ValiantLight.Scripts.Utilities;
 using UnityEngine;
 
 namespace _ActionFarm.Scripts.Hero
@@ -19,7 +18,6 @@ namespace _ActionFarm.Scripts.Hero
         [SerializeField] private TriggerComponent _activityCheck;
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private float _moveSpeed;
-        [SerializeField] private SpawnParticleComponent _spawnParticle;
         [SerializeField] private IntStat _coins;
 
         [Space] [Header("Activities")] [SerializeField]
@@ -65,9 +63,9 @@ namespace _ActionFarm.Scripts.Hero
             }
             else if (activity.ActivityType == ActivityType.Trade)
             {
-                var resources = Inventory.inventoryModel.Resources.Keys;
-
-                foreach (var resource in resources.Where(resource => Inventory.CountResource(resource) > 0))
+                foreach (var resource in Inventory.inventoryModel.Resources.Keys.Where(resource =>
+                    Inventory.inventoryModel.Resources[resource] > 0 &&
+                    Inventory.inventoryModel.Resources.ContainsKey(resource)))
                     _coroutine = StartCoroutine(TrySendResource(resource, activity.transform));
             }
         }
@@ -76,11 +74,9 @@ namespace _ActionFarm.Scripts.Hero
         {
             while (Inventory.CountResource(resource) > 0 && Inventory.inventoryModel.Resources.ContainsKey(resource))
             {
-                _spawnParticle.SpawnParticleToTarget(target.position, () =>
-                {
-                    Inventory.RemoveResource(resource);
-                    EventBus.onResourceSend?.Invoke(resource);
-                });
+                Inventory.RemoveResource(resource);
+                EventBus.onResourceSendToTrade?.Invoke(resource, target.transform);
+
                 yield return new WaitForSeconds(.5f);
             }
         }

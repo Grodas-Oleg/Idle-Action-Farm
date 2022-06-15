@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using _ActionFarm.Scripts.EventLayer;
 using _ActionFarm.Scripts.Hero.HeroInventory;
 using TMPro;
 using UnityEngine;
@@ -15,11 +16,11 @@ namespace _ActionFarm.Scripts.UI
             foreach (var resourceData in _resourceDatas)
             {
                 resourceData.quantityText.SetText(Inventory.inventoryModel.Resources.ContainsKey(resourceData.resource)
-                    ? Inventory.inventoryModel.Resources[resourceData.resource] + "/40"
-                    : "0/40");
+                    ? Inventory.inventoryModel.Resources[resourceData.resource] + "/" + Inventory.stakSize
+                    : "0/" + Inventory.stakSize);
             }
 
-            Inventory.onInventoryChanged += UpdateView;
+            EventBus.onInventoryChanged += UpdateView;
         }
 
         private void UpdateView(ResourceType resource)
@@ -32,7 +33,7 @@ namespace _ActionFarm.Scripts.UI
             }
 
             Inventory.inventoryModel.Resources.TryGetValue(resource, out int currentQuantity);
-            resourceData.quantityText.SetText(currentQuantity + "/40");
+            resourceData.quantityText.SetText(currentQuantity + "/" + Inventory.stakSize);
         }
     }
 

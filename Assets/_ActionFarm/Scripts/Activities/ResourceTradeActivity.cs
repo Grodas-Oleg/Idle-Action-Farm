@@ -1,7 +1,5 @@
 using System;
-using _ActionFarm.Scripts.Components;
 using _ActionFarm.Scripts.EventLayer;
-using _ActionFarm.Scripts.Hero;
 using _ActionFarm.Scripts.Hero.HeroInventory;
 using UnityEngine;
 
@@ -9,11 +7,7 @@ namespace _ActionFarm.Scripts.Activities
 {
     public class ResourceTradeActivity : ActivityBase
     {
-        // [SerializeField] private TriggerComponent _enterTrigger;
-
-        [SerializeField] private ResourcesTradeRatio[] _resourcesTradeRatio;
-        [SerializeField] private SpawnParticleComponent _particleComponent;
-        [SerializeField] private RectTransform _UI;
+        [SerializeField] private ResourcesTradeRatio[] _resourcesTradeRaito;
 
         public override ActivityType ActivityType
         {
@@ -21,23 +15,14 @@ namespace _ActionFarm.Scripts.Activities
             protected set => throw new NotImplementedException();
         }
 
-        private void OnEnable()
-        {
-            EventBus.onResourceSend += TradeResource;
-        }
+        private void OnEnable() => EventBus.onResourceComeToTrade += TradeResource;
+
 
         private void TradeResource(ResourceType resource)
         {
-            for (var i = 0; i < _resourcesTradeRatio.Length; i++)
+            foreach (var resourceRaito in _resourcesTradeRaito)
             {
-                if (_resourcesTradeRatio[i].resource == resource)
-                {
-                    // HeroController.Instance.AddCoins(_resourcesTradeRatio[i].resourceCost);
-                    // var Position = Camera.main.WorldToScreenPoint(transform.position);
-                    // var UiPosition = Camera.main.WorldToViewportPoint(_UI.position);
-                    _particleComponent.SpawnParticleToTarget(_UI.transform.position,
-                        () => HeroController.Instance.AddCoins(_resourcesTradeRatio[i].resourceCost));
-                }
+                if (resourceRaito.resource == resource) EventBus.onCoinSend?.Invoke(resourceRaito.resourceCost);
             }
         }
     }
